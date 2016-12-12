@@ -6,6 +6,7 @@ run/
 .classpath
 .project
 *.launch
+build.number
 /.apt_generated/
 .factorypath
 logs/
