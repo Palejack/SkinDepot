@@ -78,15 +78,15 @@ afterEvaluate {
 }
 
 jar {
-	from sourceSets.hdskins.output
+	from sourceSets.main.output
 	from litemod.outputs
 }
 sourceJar {
 	// add hdskins sources
-	from sourceSets.hdskins.allSource
+	from sourceSets.main.allSource
 }
 task srgJar(type: Jar) {
-	from sourceSets.hdskins.output
+	from sourceSets.main.output
 	from litemod.outputs
 	classifier "mc$minecraft.version-srg"
 	baseName "mod-${project.name.toLowerCase()}"
