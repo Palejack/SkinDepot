@@ -25,9 +25,9 @@ apply plugin: 'net.minecraftforge.gradle.liteloader'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'mnm.gradle.ap-ide'
 
-group = 'com.minelittlepony'
+group = 'me.jaredhewitt.skindepot'
 version = '1.11.0.2'
-description = 'Mine Little Pony'
+description = 'SkinDepot'
 
 targetCompatibility = 1.8
 sourceCompatibility = 1.8
@@ -46,29 +46,17 @@ sourceSets {
 		configurations.forgeGradleMc,
 		configurations.compile,
 	]
-	hdskins {
+	main {
 		compileClasspath += files deps
 		refMap = 'mixin.hdskins.refmap.json'
-	}
-	main {
-		refMap = 'mixin.minelp.refmap.json'
-		compileClasspath += hdskins.output
 	}
 
 }
 
 litemod.json {
-	author = 'Verdana, Rene_Z, Mumfrey, JoyJoy'
-	description = 'Mine Little Pony turns players and mobs into ponies'
-	description.minelittlepony = '''\
-		Mine Little Pony turns players and mobs into ponies
-		Press F9 ingame to access settings'''.stripIndent()
-	description.hdskinsmod = '''\
-		Seperate skin server for Mine Little Pony that also supports HD skins.
-		Access via Skin Manager key binding (default: F1) in the main menu.'''.stripIndent()
-
+	author = 'Palejack (originally Verdana, Rene_Z, Mumfrey, JoyJoy)'
+	description = 'SkinDepot is a fork of the VoxelMod Team HDSkins mod which allows players to set and see skins from the SkinDepot skin repository.'
 	mixinConfigs += [
-		'mixin.minelp.json',
 		'mixin.hdskins.json'
 	]
 }
