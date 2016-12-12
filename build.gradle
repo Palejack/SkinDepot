@@ -1,0 +1,125 @@
+buildscript {
+	repositories {
+		jcenter()
+		maven {
+			name 'forge'
+			url 'http://files.minecraftforge.net/maven'
+		}
+		maven {
+			name 'm2'
+			url 'https://plugins.gradle.org/m2'
+		}
+		maven {
+			name = 'sponge'
+			url = 'http://repo.spongepowered.org/maven'
+		}
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+		classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
+		classpath 'gradle.plugin.mnm.mods.kappa:ap-ide:1.0.5'
+	}
+}
+
+apply plugin: 'net.minecraftforge.gradle.liteloader'
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'mnm.gradle.ap-ide'
+
+group = 'com.minelittlepony'
+version = '1.11.0.2'
+description = 'Mine Little Pony'
+
+targetCompatibility = 1.8
+sourceCompatibility = 1.8
+
+minecraft {
+	version = "1.11"
+	// first snapshot for 1.11. Change to stable when possible.
+	mappings = 'snapshot_20161120'
+	runDir = 'run'
+	replace '@VERSION@',project.version
+}
+
+sourceSets {
+	def deps = [
+		configurations.forgeGradleMcDeps,
+		configurations.forgeGradleMc,
+		configurations.compile,
+	]
+	hdskins {
+		compileClasspath += files deps
+		refMap = 'mixin.hdskins.refmap.json'
+	}
+	main {
+		refMap = 'mixin.minelp.refmap.json'
+		compileClasspath += hdskins.output
+	}
+
+}
+
+litemod.json {
+	author = 'Verdana, Rene_Z, Mumfrey, JoyJoy'
+	description = 'Mine Little Pony turns players and mobs into ponies'
+	description.minelittlepony = '''\
+		Mine Little Pony turns players and mobs into ponies
+		Press F9 ingame to access settings'''.stripIndent()
+	description.hdskinsmod = '''\
+		Seperate skin server for Mine Little Pony that also supports HD skins.
+		Access via Skin Manager key binding (default: F1) in the main menu.'''.stripIndent()
+
+	mixinConfigs += [
+		'mixin.minelp.json',
+		'mixin.hdskins.json'
+	]
+}
+
+afterEvaluate {
+	dependencies {
+		// add mixin to the factory path
+		// use same version as liteloader
+		def liteloader = project.plugins['net.minecraftforge.gradle.liteloader']
+		def artifact = liteloader.artifact.libraries
+			.collect {it.name}
+			.find {it.contains 'mixin'}
+		factory artifact
+	}
+	processor {
+		// tell the processor where the reobf file is
+		options.reobfSrgFile = mixin.reobfSrgFile
+	}
+}
+
+jar {
+	from sourceSets.hdskins.output
+	from litemod.outputs
+}
+sourceJar {
+	// add hdskins sources
+	from sourceSets.hdskins.allSource
+}
+task srgJar(type: Jar) {
+	from sourceSets.hdskins.output
+	from litemod.outputs
+	classifier "mc$minecraft.version-srg"
+	baseName "mod-${project.name.toLowerCase()}"
+}
+task skinZip(type: Zip) {
+	from fileTree('skins')
+	baseName 'Pony Skin Resources'
+	version 'v1'
+}
+
+reobf {
+	srgJar {
+		mappingType = 'SEARGE'
+	}
+}
+mixin {
+	defaultObfuscationEnv notch
+}
+
+// windows only
+task deploy(type: Copy, dependsOn: build) {
+	from jar.archivePath
+	into file("$System.env.APPDATA/.minecraft/mods")
+}
