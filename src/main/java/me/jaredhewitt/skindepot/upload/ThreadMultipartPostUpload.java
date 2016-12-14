@@ -1,13 +1,16 @@
 package me.jaredhewitt.skindepot.upload;
 
 import com.google.common.io.Files;
+import com.mumfrey.liteloader.util.log.LiteLoaderLogger;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
@@ -35,7 +38,7 @@ public class ThreadMultipartPostUpload extends Thread {
 
     protected static final String twoHyphens = "--";
 
-    protected static final String boundary = "----------AaB03x";
+    protected static final String boundary = "----WebKitFormBoundaryqZ4IlT8wYfikAclf";
 
     public String response;
 
@@ -65,7 +68,7 @@ public class ThreadMultipartPostUpload extends Thread {
 
         this.callback.onUploadComplete(this.getResponse());
     }
-
+    
     protected void uploadMultipart() throws IOException {
         // open a URL connection
         URL url = new URL(this.urlString);
@@ -73,43 +76,51 @@ public class ThreadMultipartPostUpload extends Thread {
         // Open a HTTP connection to the URL
         this.httpClient = (HttpURLConnection) url.openConnection();
         this.httpClient.setDoOutput(true);
+        this.httpClient.setDoInput(true);
         this.httpClient.setUseCaches(false);
 
         this.httpClient.setRequestMethod(this.method);
-        this.httpClient.setRequestProperty("Connection", "Close");
-        this.httpClient.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"); // For CloudFlare
+        //this.httpClient.setRequestProperty("Connection", "Close");
+        this.httpClient.setRequestProperty("Accept", "*/*");
+        this.httpClient.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36"); // For CloudFlare
 
         if (this.sourceData.size() > 0) {
-            this.httpClient.setRequestProperty("Content-Type", "multipart/form-data, boundary=" + boundary);
+            this.httpClient.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
         }
 
         if (this.authorization != null) {
             this.httpClient.addRequestProperty("Authorization", this.authorization);
         }
 
-        DataOutputStream outputStream = new DataOutputStream(this.httpClient.getOutputStream());
+        OutputStream outputStream = this.httpClient.getOutputStream();
+        PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
 
         for (Entry<String, ?> data : this.sourceData.entrySet()) {
-            outputStream.writeBytes(twoHyphens + boundary + CRLF);
+            writer.append(twoHyphens + boundary).append(CRLF);
 
             String paramName = data.getKey();
             Object paramData = data.getValue();
 
             if (paramData instanceof File) {
                 File uploadFile = (File) paramData;
-                outputStream.writeBytes("Content-Disposition: form-data; name=\"" + paramName + "\"; filename=\"" + uploadFile.getName() + "\"" + CRLF + CRLF);
-
-                Files.asByteSource(uploadFile).copyTo(outputStream);
+                writer.append("Content-Disposition: form-data; name=\"" + paramName + "\"; filename=\"" + uploadFile.getName() + "\"").append(CRLF);
+                writer.append("Content-Type: image/png").append(CRLF).append(CRLF);
+                writer.flush();
+                Files.copy(uploadFile, outputStream);
+				outputStream.flush();
+                writer.append(CRLF);
+                writer.flush();
 
             } else {
-                outputStream.writeBytes("Content-Disposition: form-data; name=\"" + paramName + "\"" + CRLF + CRLF);
-                outputStream.writeBytes(paramData.toString());
+                writer.append("Content-Disposition: form-data; name=\"" + paramName + "\"").append(CRLF).append(CRLF);
+                writer.append(paramData.toString()).append(CRLF);
+                LiteLoaderLogger.info(outputStream.toString());
             }
-
-            outputStream.writeBytes(ThreadMultipartPostUpload.CRLF);
+            
         }
 
-        outputStream.writeBytes(twoHyphens + boundary + twoHyphens + CRLF);
+        writer.append(twoHyphens + boundary + twoHyphens).append(CRLF);
+        writer.append(CRLF).flush();
         outputStream.flush();
 
         InputStream httpStream = this.httpClient.getInputStream();

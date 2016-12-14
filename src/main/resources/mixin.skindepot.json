@@ -1,8 +1,9 @@
 {
   "required": true,
+  "compatibilityLevel": "JAVA_8",
   "minVersion": "0.6",
-  "package": "com.voxelmodpack.hdskins.mixin",
-  "refmap": "mixin.hdskins.refmap.json",
+  "package": "me.jaredhewitt.skindepot.mixin",
+  "refmap": "mixin.skindepot.refmap.json",
   "mixins": [
     "MixinGuiMainMenu",
     "MixinImageBufferDownload",

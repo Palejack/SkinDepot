@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class EntityPlayerModel extends EntityLivingBase {
-    public static final ResourceLocation NOSKIN = new ResourceLocation("hdskins", "textures/mob/noskin.png");
+    public static final ResourceLocation NOSKIN = new ResourceLocation("skindepot", "textures/mob/noskin.png");
     private PreviewTexture remoteSkinTexture;
     private ResourceLocation remoteSkinResource;
     private ResourceLocation localSkinResource;

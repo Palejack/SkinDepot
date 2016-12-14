@@ -1,0 +1,11 @@
+{
+    "name": "SkinDepot",
+    "author": "Palejack (originally Verdana, Rene_Z, Mumfrey, JoyJoy)",
+    "mcversion": "${mcversion}",
+    "version": "${version}",
+    "revision": "${revision}",
+    "description": "SkinDepot is a fork of the VoxelMod Team HDSkins mod which allows players to set and see skins from the SkinDepot skin repository.",
+    "mixinConfigs": [
+        "mixin.skindepot.json"
+    ]
+}

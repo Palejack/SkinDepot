@@ -18,12 +18,12 @@ import java.lang.reflect.Method;
 public class LiteModHDSkinsMod implements HDSkinsMod {
     @Override
     public String getName() {
-        return "HD Skins";
+        return "SkinDepot";
     }
 
     @Override
     public String getVersion() {
-        return "4.0.0";
+        return "1.11-1.2";
     }
 
     @Override
@@ -31,7 +31,7 @@ public class LiteModHDSkinsMod implements HDSkinsMod {
         try {
             Class<?> ex = Class.forName("com.thevoxelbox.voxelmenu.GuiMainMenuVoxelBox");
             Method mRegisterCustomScreen = ex.getDeclaredMethod("registerCustomScreen", Class.class, String.class);
-            mRegisterCustomScreen.invoke(null, GuiSkins.class, "HD Skins Manager");
+            mRegisterCustomScreen.invoke(null, GuiSkins.class, "SkinDepot Manager");
         } catch (ClassNotFoundException var4) {
             // voxelmenu's not here, man
         } catch (Exception var5) {

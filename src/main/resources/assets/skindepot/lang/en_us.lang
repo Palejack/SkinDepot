@@ -1,0 +1,20 @@
+#HD Skins en_US.lang file
+skindepot.choose=Choose a file
+skindepot.manager=Skin Manager
+skindepot.error.unreadable=File not readable
+skindepot.error.ext=File not PNG
+skindepot.error.open=Error opening skin file
+skindepot.error.invalid=Not a valid skin file
+skindepot.error.select=Please select a skin first
+skindepot.error.mojang=Mojang API Error
+skindepot.error.mojang.wait=Please wait 1 minute
+skindepot.open.title=Choose skin
+skindepot.fetch=Fetching skin...
+skindepot.failed=Uploading skin failed
+skindepot.request=Sending request to server please wait...
+skindepot.upload=Uploading skin please wait...
+
+skindepot.local=Local Skin
+skindepot.server=Server Skin
+
+gui.ok=OK

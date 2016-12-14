@@ -35,6 +35,7 @@ import org.apache.commons.io.FileUtils;
 
 import javax.annotation.Nullable;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -102,7 +103,20 @@ public final class HDSkinManager implements IResourceManagerReloadListener {
         if (skin == null) {
             if (loadIfAbsent) {
                 skinCache.get(profile.getId()).put(type, LOADING);
-                executor.submit(() -> loadTexture(profile, type, (type1, location, profileTexture) -> skinCache.get(profile.getId()).put(type1, location)));
+                //NOTE: Reverted from the "executor.submit(() ->" syntax as it caused a java.lang.AbstractMethodError in the actual client 
+                executor.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadTexture(profile, type, new SkinAvailableCallback() {
+                            @Override
+                            public void skinAvailable(Type type, ResourceLocation location, MinecraftProfileTexture profileTexture) {
+                                skinCache.get(profile.getId()).put(type, location);
+                            }
+                        });
+                    }
+                });
+                //NOTE: Throws java.lang.AbstractMethodError
+                //executor.submit(() -> loadTexture(profile, type, (type1, location, profileTexture) -> skinCache.get(profile.getId()).put(type1, location)));
             }
             return Optional.empty();
         }

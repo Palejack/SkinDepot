@@ -3,6 +3,7 @@ package me.jaredhewitt.skindepot;
 import net.minecraft.client.renderer.IImageBuffer;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 public class ImageBufferDownloadHD implements IImageBuffer {
@@ -12,7 +13,6 @@ public class ImageBufferDownloadHD implements IImageBuffer {
     private BufferedImage image;
 
     @Override
-    @SuppressWarnings("SuspiciousNameCombination")
     public BufferedImage parseUserSkin(BufferedImage downloadedImage) {
         if (downloadedImage == null) {
             return null;

@@ -26,7 +26,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'mnm.gradle.ap-ide'
 
 group = 'me.jaredhewitt.skindepot'
-version = '1.11.0.2'
+version = '1.11-1.2'
 description = 'SkinDepot'
 
 targetCompatibility = 1.8
@@ -35,7 +35,7 @@ sourceCompatibility = 1.8
 minecraft {
 	version = "1.11"
 	// first snapshot for 1.11. Change to stable when possible.
-	mappings = 'snapshot_20161120'
+	mappings = 'snapshot_20161124'
 	runDir = 'run'
 	replace '@VERSION@',project.version
 }
@@ -48,7 +48,7 @@ sourceSets {
 	]
 	main {
 		compileClasspath += files deps
-		refMap = 'mixin.hdskins.refmap.json'
+		refMap = 'mixin.skindepot.refmap.json'
 	}
 
 }
@@ -57,7 +57,7 @@ litemod.json {
 	author = 'Palejack (originally Verdana, Rene_Z, Mumfrey, JoyJoy)'
 	description = 'SkinDepot is a fork of the VoxelMod Team HDSkins mod which allows players to set and see skins from the SkinDepot skin repository.'
 	mixinConfigs += [
-		'mixin.hdskins.json'
+		'mixin.skindepot.json'
 	]
 }
 
@@ -77,13 +77,27 @@ afterEvaluate {
 	}
 }
 
+// manifest entries for all jars
+def jarManifest = {
+    attributes (
+        'Built-By': 'Palejack',
+        'Created-By': System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
+        'Implementation-Title': 'SkinDepot',
+        'Implementation-Version': version,
+        'Implementation-Vendor': 'skindepot.jaredhewitt.me'
+    )
+}
+
 jar {
 	from sourceSets.main.output
 	from litemod.outputs
+	manifest jarManifest
 }
+
 sourceJar {
-	// add hdskins sources
+	// add skindepot sources
 	from sourceSets.main.allSource
+	manifest jarManifest
 }
 task srgJar(type: Jar) {
 	from sourceSets.main.output
@@ -91,13 +105,16 @@ task srgJar(type: Jar) {
 	classifier "mc$minecraft.version-srg"
 	baseName "mod-${project.name.toLowerCase()}"
 }
-task skinZip(type: Zip) {
-	from fileTree('skins')
-	baseName 'Pony Skin Resources'
-	version 'v1'
-}
+//task skinZip(type: Zip) {
+//	from fileTree('skins')
+//	baseName 'Pony Skin Resources'
+//	version 'v1'
+//}
 
 reobf {
+    jar {
+        mappingType = 'NOTCH'
+    }
 	srgJar {
 		mappingType = 'SEARGE'
 	}

@@ -1,0 +1,15 @@
+# HD Skins fr_FR.lang file
+# Provided by Dalfio (PinkishPie)
+skindepot.choose=Choisissez un fichier
+skindepot.manager=Skin Manager HD
+skindepot.error.unreadable=Fichier non lisible
+skindepot.error.ext=Fichier non PNG
+skindepot.error.open=Erreur d'ouverture du fichier
+skindepot.error.invalid=Pas un fichier valide
+skindepot.error.select=S.V.P. sélectionner un skin en premier
+skindepot.error.mojang=Erreur d'API Mojang
+skindepot.open.title=Choisissez un skin
+skindepot.fetch=Chargement du skin...
+skindepot.failed=Ajout du skin échoué
+skindepot.request=Envoi de la requête au serveur S.V.P. patientez ...
+skindepot.upload=Ajout du skin, S.V.P. patientez ...

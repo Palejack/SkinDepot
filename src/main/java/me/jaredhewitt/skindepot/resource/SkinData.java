@@ -19,6 +19,6 @@ class Skin {
     String skin;
 
     public ResourceLocation getTexture() {
-        return new ResourceLocation("hdskins", String.format("textures/skins/%s.png", skin));
+        return new ResourceLocation("skindepot", String.format("textures/skins/%s.png", skin));
     }
 }

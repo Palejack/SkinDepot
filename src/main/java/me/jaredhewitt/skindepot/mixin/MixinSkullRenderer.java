@@ -30,10 +30,10 @@ public abstract class MixinSkullRenderer extends TileEntitySpecialRenderer<TileE
             Optional<ResourceLocation> skin = HDSkinManager.INSTANCE.getSkinLocation(profile, Type.SKIN, true);
             if (skin.isPresent())
                 // rebind
-                bindTexture(skin.get());
+                this.bindTexture(skin.get());
             else
-                bindTexture(rl);
+                this.bindTexture(rl);
         } else
-            bindTexture(rl);
+            this.bindTexture(rl);
     }
 }

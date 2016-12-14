@@ -58,12 +58,12 @@ public class GuiSkins extends GuiScreen implements IUploadCompleteCallback, IOpe
     private int updateCounter = 0;
     private ResourceLocation viewportTexture;
     private static final ResourceLocation[] cubemapTextures = {
-            new ResourceLocation("hdskins", "textures/cubemaps/cubemap0_0.png"),
-            new ResourceLocation("hdskins", "textures/cubemaps/cubemap0_1.png"),
-            new ResourceLocation("hdskins", "textures/cubemaps/cubemap0_2.png"),
-            new ResourceLocation("hdskins", "textures/cubemaps/cubemap0_3.png"),
-            new ResourceLocation("hdskins", "textures/cubemaps/cubemap0_4.png"),
-            new ResourceLocation("hdskins", "textures/cubemaps/cubemap0_5.png")};
+            new ResourceLocation("skindepot", "textures/cubemaps/cubemap0_0.png"),
+            new ResourceLocation("skindepot", "textures/cubemaps/cubemap0_1.png"),
+            new ResourceLocation("skindepot", "textures/cubemaps/cubemap0_2.png"),
+            new ResourceLocation("skindepot", "textures/cubemaps/cubemap0_3.png"),
+            new ResourceLocation("skindepot", "textures/cubemaps/cubemap0_4.png"),
+            new ResourceLocation("skindepot", "textures/cubemaps/cubemap0_5.png")};
     private GuiButton btnBrowse;
     private GuiButton btnUpload;
     private GuiButton btnClear;
@@ -73,8 +73,8 @@ public class GuiSkins extends GuiScreen implements IUploadCompleteCallback, IOpe
     protected DoubleBuffer doubleBuffer;
     //    private String screenTitle;
     private String uploadError;
-    private volatile String skinMessage = I18n.format("hdskins.choose");
-    private String skinUploadMessage = I18n.format("hdskins.request");
+    private volatile String skinMessage = I18n.format("skindepot.choose");
+    private String skinUploadMessage = I18n.format("skindepot.request");
     private volatile boolean fetchingSkin;
     private volatile boolean uploadingSkin;
     private volatile boolean pendingRemoteSkinRefresh;
@@ -91,21 +91,21 @@ public class GuiSkins extends GuiScreen implements IUploadCompleteCallback, IOpe
     private JFrame fileDrop;
 
     // translations
-    private final String screenTitle = I18n.format("hdskins.manager");
-    private final String unreadable = I18n.format("hdskins.error.unreadable");
-    private final String ext = I18n.format("hdskins.error.ext");
-    private final String open = I18n.format("hdskins.error.open");
-    private final String invalid = I18n.format("hdskins.error.invalid");
-    private final String select = I18n.format("hdskins.error.select");
-    private final String mojang = I18n.format("hdskins.error.mojang");
-    private final String wait = I18n.format("hdskins.error.mojang.wait");
-    private final String title = I18n.format("hdskins.open.title");
-    private final String fetch = I18n.format("hdskins.fetch");
-    private final String failed = I18n.format("hdskins.failed");
-    private final String request = I18n.format("hdskins.request");
-    private final String upload = I18n.format("hdskins.upload");
-    private final String localSkin = I18n.format("hdskins.local");
-    private final String serverSkin = I18n.format("hdskins.server");
+    private final String screenTitle = I18n.format("skindepot.manager");
+    private final String unreadable = I18n.format("skindepot.error.unreadable");
+    private final String ext = I18n.format("skindepot.error.ext");
+    private final String open = I18n.format("skindepot.error.open");
+    private final String invalid = I18n.format("skindepot.error.invalid");
+    private final String select = I18n.format("skindepot.error.select");
+    private final String mojang = I18n.format("skindepot.error.mojang");
+    private final String wait = I18n.format("skindepot.error.mojang.wait");
+    private final String title = I18n.format("skindepot.open.title");
+    private final String fetch = I18n.format("skindepot.fetch");
+    private final String failed = I18n.format("skindepot.failed");
+    private final String request = I18n.format("skindepot.request");
+    private final String upload = I18n.format("skindepot.upload");
+    private final String localSkin = I18n.format("skindepot.local");
+    private final String serverSkin = I18n.format("skindepot.server");
 
     public GuiSkins() {
         Minecraft minecraft = Minecraft.getMinecraft();
