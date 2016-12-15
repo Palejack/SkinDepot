@@ -18,7 +18,7 @@ public class MixinGuiMainMenu extends GuiScreen {
 
     @Inject(method = "initGui()V", at = @At("RETURN"))
     private void onInit(CallbackInfo ci) {
-        this.buttonList.add(new GuiButtonSkins(SKINS, width - 50, height - 50));
+        this.buttonList.add(new GuiButtonSkins(SKINS, width - 90, height - 47));
     }
 
     @Inject(method = "actionPerformed(Lnet/minecraft/client/gui/GuiButton;)V", at = @At("RETURN"))
