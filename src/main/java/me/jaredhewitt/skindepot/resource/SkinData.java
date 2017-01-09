@@ -1,9 +1,9 @@
 package me.jaredhewitt.skindepot.resource;
 
-import net.minecraft.util.ResourceLocation;
-
 import java.util.List;
 import java.util.UUID;
+
+import net.minecraft.util.ResourceLocation;
 
 @SuppressWarnings("unused")
 class SkinData {

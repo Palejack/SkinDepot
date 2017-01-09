@@ -23,7 +23,7 @@ public class LiteModHDSkinsMod implements HDSkinsMod {
 
     @Override
     public String getVersion() {
-        return "1.11-1.2";
+        return "1.11.2-1.2";
     }
 
     @Override

@@ -1,10 +1,9 @@
 package me.jaredhewitt.skindepot;
 
-import net.minecraft.client.renderer.IImageBuffer;
-
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+
+import net.minecraft.client.renderer.IImageBuffer;
 
 public class ImageBufferDownloadHD implements IImageBuffer {
 

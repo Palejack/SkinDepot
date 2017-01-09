@@ -1,17 +1,16 @@
 package me.jaredhewitt.skindepot.mixin;
 
-import net.minecraft.client.renderer.IImageBuffer;
-import net.minecraft.client.renderer.ImageBufferDownload;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import me.jaredhewitt.skindepot.HDSkinManager;
-
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
+import net.minecraft.client.renderer.IImageBuffer;
+import net.minecraft.client.renderer.ImageBufferDownload;
 
 @Mixin(ImageBufferDownload.class)
 public abstract class MixinImageBufferDownload implements IImageBuffer {

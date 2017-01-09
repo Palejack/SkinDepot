@@ -1,5 +1,22 @@
 package me.jaredhewitt.skindepot;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.annotation.Nullable;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
+
 import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
@@ -30,22 +47,6 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.client.resources.SkinManager.SkinAvailableCallback;
 import net.minecraft.util.ResourceLocation;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
-
-import javax.annotation.Nullable;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public final class HDSkinManager implements IResourceManagerReloadListener {
 

@@ -2,8 +2,6 @@ package me.jaredhewitt.skindepot.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 
 public class GuiButtonSkins extends GuiButton {
 

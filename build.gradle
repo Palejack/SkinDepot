@@ -26,16 +26,16 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'mnm.gradle.ap-ide'
 
 group = 'me.jaredhewitt.skindepot'
-version = '1.11-1.2'
+version = '1.11.2-1.2'
 description = 'SkinDepot'
 
 targetCompatibility = 1.8
 sourceCompatibility = 1.8
 
 minecraft {
-	version = "1.11"
+	version = "1.11.2"
 	// first snapshot for 1.11. Change to stable when possible.
-	mappings = 'snapshot_20161124'
+	mappings = 'snapshot_20170108'
 	runDir = 'run'
 	replace '@VERSION@',project.version
 }
@@ -105,11 +105,6 @@ task srgJar(type: Jar) {
 	classifier "mc$minecraft.version-srg"
 	baseName "mod-${project.name.toLowerCase()}"
 }
-//task skinZip(type: Zip) {
-//	from fileTree('skins')
-//	baseName 'Pony Skin Resources'
-//	version 'v1'
-//}
 
 reobf {
     jar {
