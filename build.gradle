@@ -15,7 +15,7 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
 		classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
 		classpath 'gradle.plugin.mnm.mods.kappa:ap-ide:1.0.5'
 	}
@@ -25,17 +25,16 @@ apply plugin: 'net.minecraftforge.gradle.liteloader'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'mnm.gradle.ap-ide'
 
-group = 'me.jaredhewitt.skindepot'
-version = '1.11.2-1.2'
+group = 'net.shadowboxx.skindepot'
+version = '1.3.1'
 description = 'SkinDepot'
 
 targetCompatibility = 1.8
 sourceCompatibility = 1.8
 
 minecraft {
-	version = "1.11.2"
-	// first snapshot for 1.11. Change to stable when possible.
-	mappings = 'snapshot_20170108'
+	version = "1.12.2"
+	mappings = 'snapshot_20171003'
 	runDir = 'run'
 	replace '@VERSION@',project.version
 }
@@ -84,7 +83,7 @@ def jarManifest = {
         'Created-By': System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
         'Implementation-Title': 'SkinDepot',
         'Implementation-Version': version,
-        'Implementation-Vendor': 'skindepot.jaredhewitt.me'
+        'Implementation-Vendor': 'skindepot.shadowboxx.net'
     )
 }
 
