@@ -127,19 +127,29 @@ public final class HDSkinManager implements IResourceManagerReloadListener {
     }
 
     private void loadTexture(GameProfile profile, final Type type, final SkinAvailableCallback callback) {
+    	//first make sure we're not dealing with null data
         if (profile != null && profile.getId() != null) {
+        	//call getProfileData (defined below) to get our mapped texture data
             Map<Type, MinecraftProfileTexture> data = getProfileData(profile);
+            //get the specific texture type (skin, cape, elytra) that we need
             final MinecraftProfileTexture texture = data.get(type);
+            //if it's null then do nothing *womp, womp*
             if (texture == null) {
                 return;
             }
 
-            String skinDir = "hd" + type.toString().toLowerCase() + "s/";
-            final ResourceLocation skin = new ResourceLocation(skinDir + texture.getHash());
-            File file1 = new File(new File("assets/" + skinDir), texture.getHash().substring(0, 2));
-            File file2 = new File(file1, texture.getHash());
+            //define skinDir so we know what we are looking for locally
+            String skinDir = "hd" + type.toString().toLowerCase() + "s";
+            
+            //this defines our resource location as the skinDir plus the md5 hash of our texture
+            final ResourceLocation skin = new ResourceLocation(skinDir, texture.getHash());
+            
+            //this defines our file location using a substring of hash + the full hash
+            String textureHash = texture.getHash();
+            File textureFile = new File(new File("assets/" + skinDir), textureHash.substring(0, 2) + "/" + textureHash);
+
             final IImageBuffer imagebufferdownload = new ImageBufferDownloadHD();
-            ThreadDownloadImageData threaddownloadimagedata = new ThreadDownloadImageData(file2, texture.getUrl(),
+            ThreadDownloadImageData threaddownloadimagedata = new ThreadDownloadImageData(textureFile, texture.getUrl(),
                     DefaultPlayerSkin.getDefaultSkinLegacy(),
                     new IImageBuffer() {
                         @Override
@@ -162,29 +172,43 @@ public final class HDSkinManager implements IResourceManagerReloadListener {
     }
 
     public Map<Type, MinecraftProfileTexture> getProfileData(GameProfile profile) {
+    	//if we aren't enabled then piss off and return an empty map
         if (!enabled)
             return ImmutableMap.of();
+        
+        //profileTextures is a hashmap of profile id (key) -> texture hashmap (value)
+        //if we don't already have textures for this profile id then this gets set to null instead
         Map<Type, MinecraftProfileTexture> textures = this.profileTextures.get(profile.getId());
-        if (textures == null) {
 
+        //if we got "null" then we need to construct our hashmap and slap it in the table
+        //this should only happen on game start
+        //TODO: Figure out a way to recall this when the cache is cleared or if we push new stuff to the server
+        if (textures == null) {
+        	LiteLoaderLogger.info("SkinDepot: getProfileData Ran, textures was null");
+
+        	//grab player uuid from the profile id, because our filenames get stored as uuid on the server
             String uuid = UUIDTypeAdapter.fromUUID(profile.getId());
 
-            ImmutableMap.Builder<Type, MinecraftProfileTexture> builder = ImmutableMap.builder();
-            for (Type type : Type.values()) {
-                String url = getCustomTextureURLForId(type, uuid);
-                String hash = getTextureHash(type, uuid);
+            //construct an empty map to fill with our data
+            textures = Maps.newHashMap();
+            for (Type type : Type.values()) { //this should create an entry for skin, cape and elytra each
+                String url = getCustomTextureURLForId(type, uuid); //gets the url for our texture
+                String hash = getTextureHash(type, uuid); //retrieves the md5 hash of our texture from the server
 
-                builder.put(type, new HDProfileTexture(url, hash, null));
+                //put it in the table using the type (skin, cape, elytra) as the keyword
+                //HDProfileTexture extends MinecraftProfileTexture, the last entry is supposed to be Map<String, String>
+                //no clue what the hell is supposed to go in there normally. It's just referred to as "metadata"
+                textures.put(type, new HDProfileTexture(url, hash, null));
             }
 
-            textures = builder.build();
+            //place our texture data in our profileTextures hashmap
             this.profileTextures.put(profile.getId(), textures);
         }
         return textures;
     }
 
     private static Map<Type, MinecraftProfileTexture> getTexturesForProfile(GameProfile profile) {
-        LiteLoaderLogger.debug("Get textures for " + profile.getId());
+        LiteLoaderLogger.info("SkinDepot: Get textures for " + profile.getId());
 
         Minecraft minecraft = Minecraft.getMinecraft();
         MinecraftSessionService sessionService = minecraft.getSessionService();
@@ -226,6 +250,8 @@ public final class HDSkinManager implements IResourceManagerReloadListener {
     }
 
     private String getTextureHash(Type type, String uuid) {
+    	//this returns the md5 hash of the texture on the server, if it exists
+    	//which it SHOULD, if the player has uploaded a texture...
         try {
             URL url = new URL(getCustomTextureURLForId(type, uuid) + ".md5");
             return Resources.asCharSource(url, Charsets.UTF_8).readFirstLine();
@@ -253,10 +279,18 @@ public final class HDSkinManager implements IResourceManagerReloadListener {
     }
 
     public static void clearSkinCache() {
-        LiteLoaderLogger.info("Clearing local player skin cache");
+        LiteLoaderLogger.info("SkinDepot: Clearing local player skin cache");
 
         try {
-            FileUtils.deleteDirectory(new File(LiteLoader.getAssetsDirectory(), "skins"));
+        	File hdskins = new File(LiteLoader.getAssetsDirectory(), "hdskins");
+        	File hdcapes = new File(LiteLoader.getAssetsDirectory(), "hdcapes");
+        	File hdelytras = new File(LiteLoader.getAssetsDirectory(), "hdelytras");
+            FileUtils.deleteDirectory(hdskins);
+            LiteLoaderLogger.info("SkinDepot: Deleting " + hdskins.toString());
+            FileUtils.deleteDirectory(hdcapes);
+            LiteLoaderLogger.info("SkinDepot: Deleting " + hdcapes.toString());
+            FileUtils.deleteDirectory(hdelytras);
+            LiteLoaderLogger.info("SkinDepot: Deleting " + hdelytras.toString());
         } catch (IOException var1) {
             var1.printStackTrace();
         }
