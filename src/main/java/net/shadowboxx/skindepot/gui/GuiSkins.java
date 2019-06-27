@@ -34,17 +34,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.WindowConstants;
-import java.awt.Color;
-import java.awt.Window.Type;
-import java.awt.dnd.DropTarget;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -187,7 +179,7 @@ public class GuiSkins extends GuiScreen implements IUploadCompleteCallback, IOpe
 
     @Override
     public void initGui() {
-        enableDnd();
+        //enableDnd();
         this.initPanoramaRenderer();
         this.buttonList.clear();
         this.buttonList.add(this.btnBrowse = new GuiButton(0, 30, this.height - 36, 60, 20, "Browse..."));
@@ -196,41 +188,6 @@ public class GuiSkins extends GuiScreen implements IUploadCompleteCallback, IOpe
         this.buttonList.add(this.btnBack = new GuiButton(3, this.width / 2 - 50, this.height - 36, 100, 20, "Close"));
         this.btnUpload.enabled = false;
         this.btnBrowse.enabled = !this.mc.isFullScreen();
-    }
-
-    /**
-     * @wbp.parser.entryPoint
-     */
-    private void enableDnd() {
-        if (fileDrop != null) {
-            fileDrop.setVisible(true);
-            return;
-        }
-        fileDrop = new JFrame("Skin Drop");
-        fileDrop.setType(Type.UTILITY);
-        fileDrop.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        fileDrop.setResizable(false);
-        fileDrop.setTitle("Skin Drop");
-        fileDrop.setSize(256, 256);
-        // fileDrop.setAlwaysOnTop(true);
-        fileDrop.getContentPane().setLayout(null);
-        JPanel panel = new JPanel();
-        panel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY));
-        panel.setBounds(10, 11, 230, 205);
-        fileDrop.getContentPane().add(panel);
-        JLabel txtInst = new JLabel("Drop skin file here");
-        txtInst.setHorizontalAlignment(SwingConstants.CENTER);
-        txtInst.setVerticalAlignment(SwingConstants.CENTER);
-        panel.add(txtInst);
-
-        DropTarget dt = new DropTarget();
-        fileDrop.setDropTarget(dt);
-        try {
-            dt.addDropTargetListener((FileDropListener) files -> files.stream().findFirst().ifPresent(this::loadLocalFile));
-            fileDrop.setVisible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void initPanoramaRenderer() {

@@ -6,6 +6,8 @@ import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+
 import org.lwjgl.opengl.GL11;
 
 import java.util.Set;
@@ -45,6 +47,10 @@ public class RenderPlayerModel<M extends EntityPlayerModel> extends RenderLiving
 
     @Override
     public void doRender(M par1Entity, double par2, double par4, double par6, float par8, float par9) {
+    	//World localWorld = ;
+    	//World localWorld = new WorldServer(null, null, null, 0, null).init();
+    	World localWorld = new WorldDummy();
+    	par1Entity.setWorld(localWorld);
         ModelPlayer player = this.getEntityModel(par1Entity);
         this.mainModel = player;
 

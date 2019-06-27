@@ -35,7 +35,7 @@ public class ImageLoader implements Callable<ResourceLocation> {
         return this.mc.addScheduledTask(() -> loadSkin(updated)).get();
     }
 
-    @Nullable
+	@Nullable
     private static BufferedImage getImage(ResourceLocation res) {
         try {
             InputStream in = Minecraft.getMinecraft().getResourceManager().getResource(res).getInputStream();
@@ -45,7 +45,7 @@ public class ImageLoader implements Callable<ResourceLocation> {
                 IOUtils.closeQuietly(in);
             }
         } catch (IOException e) {
-            Throwables.propagate(e);
+        	Throwables.throwIfUnchecked(e);
         }
         return null;
     }
