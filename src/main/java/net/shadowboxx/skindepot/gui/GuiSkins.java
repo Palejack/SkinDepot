@@ -64,7 +64,6 @@ public class GuiSkins extends GuiScreen implements IUploadCompleteCallback, IOpe
     protected EntityPlayerModel localPlayer;
     protected EntityPlayerModel remotePlayer;
     protected DoubleBuffer doubleBuffer;
-    //    private String screenTitle;
     private String uploadError;
     private volatile String skinMessage = I18n.format("skindepot.choose");
     private String skinUploadMessage = I18n.format("skindepot.request");
@@ -102,7 +101,6 @@ public class GuiSkins extends GuiScreen implements IUploadCompleteCallback, IOpe
 
     public GuiSkins() {
         Minecraft minecraft = Minecraft.getMinecraft();
-//        this.screenTitle = manager;
         GameProfile profile = minecraft.getSession().getProfile();
         this.localPlayer = getModel(profile);
         this.remotePlayer = getModel(profile);
@@ -183,11 +181,10 @@ public class GuiSkins extends GuiScreen implements IUploadCompleteCallback, IOpe
         this.initPanoramaRenderer();
         this.buttonList.clear();
         this.buttonList.add(this.btnBrowse = new GuiButton(0, 30, this.height - 36, 60, 20, "Browse..."));
-        this.buttonList.add(this.btnUpload = new GuiButton(1, this.width / 2 - 24, this.height / 2 - 10, 48, 20, ">>"));
+        this.buttonList.add(this.btnUpload = new GuiButton(1, this.width / 2 - 24, this.height / 2 - 10, 48, 20, "Upload"));
         this.buttonList.add(this.btnClear = new GuiButton(2, this.width - 90, this.height - 36, 60, 20, "Clear"));
         this.buttonList.add(this.btnBack = new GuiButton(3, this.width / 2 - 50, this.height - 36, 100, 20, "Close"));
         this.btnUpload.enabled = false;
-        this.btnBrowse.enabled = !this.mc.isFullScreen();
     }
 
     public void initPanoramaRenderer() {
@@ -252,6 +249,9 @@ public class GuiSkins extends GuiScreen implements IUploadCompleteCallback, IOpe
                 this.uploadError = null;
             } else {
                 if (guiButton.id == this.btnBrowse.id) {
+                	if (this.mc.isFullScreen()) {
+                		this.mc.toggleFullscreen();
+                	}
                     this.selectedSkin = null;
                     this.localPlayer.releaseTextures();
                     this.openFileThread = new ThreadOpenFilePNG(this.mc, title, this);
@@ -433,7 +433,6 @@ public class GuiSkins extends GuiScreen implements IUploadCompleteCallback, IOpe
         float vSample = this.width * aspect / 256.0F;
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-        // wr.setColorRGBA_F(1.0F, 1.0F, 1.0F, 1.0F);
         vb.pos(0.0D, this.height, this.zLevel).tex(0.5F - uSample, 0.5F + vSample).endVertex();
         vb.pos(this.width, this.height, this.zLevel).tex(0.5F - uSample, 0.5F - vSample).endVertex();
         vb.pos(this.width, 0.0D, this.zLevel).tex(0.5F + uSample, 0.5F - vSample).endVertex();

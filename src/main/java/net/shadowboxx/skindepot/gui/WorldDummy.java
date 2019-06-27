@@ -15,7 +15,7 @@ import net.minecraft.world.storage.SaveHandler;
 import net.minecraft.world.storage.WorldInfo;
 
 public class WorldDummy extends World {
-	static ISaveHandler saveHandlerIn = new SaveHandler(new File("nowhere"), "SkinDepot", true, null);
+	static ISaveHandler saveHandlerIn = new SaveHandler(new File("skindepot"), "nowhere", true, null);
 	static WorldSettings settings = new WorldSettings(0, GameType.NOT_SET, false, false, WorldType.FLAT);
 	static WorldInfo info = new WorldInfo(settings, "SkinDepot");
 	static WorldProvider providerIn = DimensionType.getById(0).createDimension();

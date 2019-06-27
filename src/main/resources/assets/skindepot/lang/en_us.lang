@@ -1,6 +1,6 @@
 #HD Skins en_US.lang file
 skindepot.choose=Choose a file
-skindepot.manager=Skin Manager
+skindepot.manager=Skin Depot Manager
 skindepot.error.unreadable=File not readable
 skindepot.error.ext=File not PNG
 skindepot.error.open=Error opening skin file
